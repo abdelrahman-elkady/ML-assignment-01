@@ -37,10 +37,10 @@ speciesData <- sapply(speciesData, as.numeric)
 # weights
 
 # w1 for sepal
-w1 <- runif(1, -0.5, 0.9)
+w1 <- runif(1, -0.2, 0.2)
 
 # w2 for petal
-w2 <- runif(1, -0.5, 0.9)
+w2 <- runif(1, -0.2, 0.2)
 
 index <- 1
 
