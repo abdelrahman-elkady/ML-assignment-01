@@ -1,12 +1,24 @@
+activationFunction <- function(val) {
+  if (val > 0) {
+    return(1);
+  } else {
+    return(-1);
+  }
+}
+
 options(warn = 1)
 setwd("/home/kady/projects-workspace/GUC/ML/assignment-01")
-data <- read.csv(file="iris_sub_21655.csv", header=TRUE, sep=",")
+mData <- read.csv(file="iris_sub_21655.csv", header=TRUE, sep=",")
+
+mData <- mData[sample(nrow(mData)),]
+
 
 # Extract columns
-ids <- data$sepal
-sepalData <- data$petal
-petalData <- data$species
-speciesData <- data$X
+ids <- mData$sepal
+sepalData <- mData$petal
+petalData <- mData$species
+speciesData <- mData$X
+
 
 learningRate <- 0.2
 
@@ -19,4 +31,41 @@ speciesData[speciesData == "setosa"] <- SETOSA
 speciesData[speciesData == "versicolor"] <- VERSICOLOR
 speciesData <- sapply(speciesData, as.numeric)
 
-print(speciesData)
+# weights
+
+# w1 for sepal
+w1 <- runif(1, 0.1, 0.5)
+
+# w2 for petal
+w2 <- runif(1, 0.1, 0.5)
+
+index <- 1
+
+classify <- function(sepalLength, petalLength) {
+  pCurrent <- w1 * sepalLength + w2 * petalLength
+  pActivated <- activationFunction(pCurrent)
+
+  return(pActivated)
+}
+
+while ( index <= 100 ) {
+  activated <- 0
+  target <- speciesData[index]
+
+  currentSepal <- sepalData[index]
+  currentPetal <- petalData[index]
+
+  current <- w1 * currentSepal + w2 * currentPetal
+
+  activated <- activationFunction(current)
+
+  # Train the machine if needed
+  w1 <- w1 - (learningRate * ( activated - target ) * currentSepal)
+  w2 <- w2 - (learningRate * ( activated - target ) * currentPetal)
+
+  index <- index + 1
+}
+
+print(classify(5.4,1.7))
+print(classify(6.3,4.7))
+print(classify(5.1,3))
