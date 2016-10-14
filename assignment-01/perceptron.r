@@ -19,6 +19,9 @@ sepalData <- mData$petal
 petalData <- mData$species
 speciesData <- mData$X
 
+# Error Tracking vector
+errorValues <- vector()
+
 
 learningRate <- 0.2
 
@@ -34,10 +37,10 @@ speciesData <- sapply(speciesData, as.numeric)
 # weights
 
 # w1 for sepal
-w1 <- runif(1, 0.1, 0.5)
+w1 <- runif(1, -0.5, 0.9)
 
 # w2 for petal
-w2 <- runif(1, 0.1, 0.5)
+w2 <- runif(1, -0.5, 0.9)
 
 index <- 1
 
@@ -56,7 +59,9 @@ while ( index <= 100 ) {
   currentPetal <- petalData[index]
 
   current <- w1 * currentSepal + w2 * currentPetal
-
+  
+  errorValues <- c(errorValues, target - current)
+  
   activated <- activationFunction(current)
 
   # Train the machine if needed
@@ -65,6 +70,8 @@ while ( index <= 100 ) {
 
   index <- index + 1
 }
+
+plot(errorValues)
 
 print(classify(5.4,1.7))
 print(classify(6.3,4.7))
