@@ -10,4 +10,13 @@ speciesData <- data$X
 
 learningRate <- 0.2
 
-print(sepal)
+SETOSA <- 1
+VERSICOLOR <- -1
+
+# Replace species with identifiers
+speciesData <- sapply(speciesData, as.character)
+speciesData[speciesData == "setosa"] <- SETOSA
+speciesData[speciesData == "versicolor"] <- VERSICOLOR
+speciesData <- sapply(speciesData, as.numeric)
+
+print(speciesData)
